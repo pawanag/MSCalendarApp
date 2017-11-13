@@ -14,7 +14,9 @@ class MSEventTableViewCell: UITableViewCell {
     @IBOutlet weak var subTitleLabel: UILabel!
     
     @IBOutlet weak var indicatorView: UIView!
-    
+    @IBOutlet weak var eventTitleLabel: UILabel!
+    let dateHelper = MSDateHelper()
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,4 +28,29 @@ class MSEventTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func resetToDefaultValues() {
+        titleLabel.text = ""
+        subTitleLabel.text = ""
+        eventTitleLabel.text = ""
+//        yearLabel.text = ""
+        backgroundColor = UIColor.white
+        
+    }
+    
+    func setValues(indexPath: IndexPath) {
+        _ = MSDateManager.dateManager.dateForIndex(index: indexPath.row)
+        if let dayOfMonth = dateHelper.dayOfMonthFor(index: indexPath.row){
+            
+            if dayOfMonth == 1 {
+                titleLabel.isHidden = false
+                subTitleLabel.isHidden = false
+//                subTitleLabel.text = dateHelper.monthStringFor(index: indexPath.row)
+                titleLabel.text = dateHelper.yearStringFor(index: indexPath.row)
+                backgroundColor = UIColor.blue
+            }
+            titleLabel.text = dateHelper.sectionTitleFor(index: indexPath.row)
+            subTitleLabel.text = String(dayOfMonth)
+            print(dayOfMonth)
+        }
+    }
 }

@@ -13,6 +13,8 @@
 		19212F701FB4C3AF0072CF4E /* MSDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19212F6D1FB4C3AF0072CF4E /* MSDateCollectionViewCell.swift */; };
 		19212F711FB4C3AF0072CF4E /* MSDateCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19212F6E1FB4C3AF0072CF4E /* MSDateCollectionViewCell.xib */; };
 		19212F721FB4C3AF0072CF4E /* MSDateCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19212F6E1FB4C3AF0072CF4E /* MSDateCollectionViewCell.xib */; };
+		192D329F1FB5934E00079972 /* MSDateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D329E1FB5934E00079972 /* MSDateHelper.swift */; };
+		192D32A01FB5934E00079972 /* MSDateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D329E1FB5934E00079972 /* MSDateHelper.swift */; };
 		19B67F501FB4E8940012B580 /* MSEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B67F4E1FB4E8940012B580 /* MSEventTableViewCell.swift */; };
 		19B67F511FB4E8940012B580 /* MSEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B67F4E1FB4E8940012B580 /* MSEventTableViewCell.swift */; };
 		19B67F521FB4E8940012B580 /* MSEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19B67F4F1FB4E8940012B580 /* MSEventTableViewCell.xib */; };
@@ -47,6 +49,7 @@
 		19212F6A1FB4BFA30072CF4E /* MSDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateManager.swift; sourceTree = "<group>"; };
 		19212F6D1FB4C3AF0072CF4E /* MSDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		19212F6E1FB4C3AF0072CF4E /* MSDateCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSDateCollectionViewCell.xib; sourceTree = "<group>"; };
+		192D329E1FB5934E00079972 /* MSDateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateHelper.swift; sourceTree = "<group>"; };
 		19B67F4E1FB4E8940012B580 /* MSEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEventTableViewCell.swift; sourceTree = "<group>"; };
 		19B67F4F1FB4E8940012B580 /* MSEventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSEventTableViewCell.xib; sourceTree = "<group>"; };
 		19ECC94C1FB1C86500E6F937 /* CalendarApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +92,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		193180C81FBA23F600793084 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
 		19ECC9431FB1C86500E6F937 = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +123,7 @@
 		19ECC94E1FB1C86500E6F937 /* CalendarApp */ = {
 			isa = PBXGroup;
 			children = (
+				193180C81FBA23F600793084 /* Weather */,
 				19ECC94F1FB1C86500E6F937 /* AppDelegate.swift */,
 				19ECC9511FB1C86500E6F937 /* ViewController.swift */,
 				19ECC9531FB1C86500E6F937 /* Main.storyboard */,
@@ -123,6 +134,7 @@
 				19212F6E1FB4C3AF0072CF4E /* MSDateCollectionViewCell.xib */,
 				19B67F4E1FB4E8940012B580 /* MSEventTableViewCell.swift */,
 				19B67F4F1FB4E8940012B580 /* MSEventTableViewCell.xib */,
+				192D329E1FB5934E00079972 /* MSDateHelper.swift */,
 			);
 			path = CalendarApp;
 			sourceTree = "<group>";
@@ -286,6 +298,7 @@
 				19ECC9521FB1C86500E6F937 /* ViewController.swift in Sources */,
 				19B67F501FB4E8940012B580 /* MSEventTableViewCell.swift in Sources */,
 				19ECC9501FB1C86500E6F937 /* AppDelegate.swift in Sources */,
+				192D329F1FB5934E00079972 /* MSDateHelper.swift in Sources */,
 				19212F6F1FB4C3AF0072CF4E /* MSDateCollectionViewCell.swift in Sources */,
 				19212F6B1FB4BFA30072CF4E /* MSDateManager.swift in Sources */,
 			);
@@ -299,6 +312,7 @@
 				19212F6C1FB4BFA30072CF4E /* MSDateManager.swift in Sources */,
 				19B67F511FB4E8940012B580 /* MSEventTableViewCell.swift in Sources */,
 				19212F701FB4C3AF0072CF4E /* MSDateCollectionViewCell.swift in Sources */,
+				192D32A01FB5934E00079972 /* MSDateHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
