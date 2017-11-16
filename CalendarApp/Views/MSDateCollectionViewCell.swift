@@ -14,10 +14,13 @@ class MSDateCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var yearLabel: UILabel!
     let dateHelper = MSDateHelper()
+    @IBOutlet weak var lineView: UIView!
 
+    @IBOutlet weak var lineViewHeight: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        lineViewHeight.constant = 0.5
+
     }
 
     func resetToDefaultValues() {
@@ -25,7 +28,6 @@ class MSDateCollectionViewCell: UICollectionViewCell {
         dateLabel.text = ""
         yearLabel.text = ""
         backgroundColor = UIColor.white
-        
     }
     
     func setValues(indexPath: IndexPath) {
@@ -37,7 +39,7 @@ class MSDateCollectionViewCell: UICollectionViewCell {
                 yearLabel.isHidden = false
                 monthLabel.text = dateHelper.monthStringFor(index: indexPath.row)
                 yearLabel.text = dateHelper.yearStringFor(index: indexPath.row)
-                backgroundColor = UIColor.blue
+                backgroundColor = UIColor.lightGray
             }
             dateLabel.text = String(dayOfMonth)
             print(dayOfMonth)

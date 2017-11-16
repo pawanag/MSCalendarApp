@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,22 +19,21 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2X0-ey-x09">
-                        <rect key="frame" x="12" y="3" width="25.5" height="44"/>
+                        <rect key="frame" x="11.5" y="14" width="23.5" height="19.5"/>
                         <subviews>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Nov" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uM-lK-Cbi">
-                                <rect key="frame" x="0.0" y="-15" width="23.5" height="0.0"/>
+                                <rect key="frame" x="0.0" y="-14" width="23.5" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RJ-nY-djE">
-                                <rect key="frame" x="0.0" y="0.0" width="23.5" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="0.0" width="23.5" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="2017" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9T-Ta-rFq">
-                                <rect key="frame" x="0.0" y="-15" width="23.5" height="0.0"/>
+                                <rect key="frame" x="0.0" y="-14" width="23.5" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -42,16 +41,28 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ggB-Bf-qT9"/>
                     </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n9E-wu-Qjq">
+                        <rect key="frame" x="0.0" y="46" width="46" height="1"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="rMF-VJ-aoc"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstItem="2X0-ey-x09" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="8lq-VR-NR7"/>
+                <constraint firstAttribute="trailing" secondItem="n9E-wu-Qjq" secondAttribute="trailing" id="L88-xG-g1j"/>
+                <constraint firstItem="n9E-wu-Qjq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Vfl-E6-vms"/>
                 <constraint firstItem="2X0-ey-x09" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="a9Q-nu-5d0"/>
+                <constraint firstAttribute="bottom" secondItem="n9E-wu-Qjq" secondAttribute="bottom" id="of6-yC-ZST"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="46" height="47"/>
             <connections>
                 <outlet property="dateLabel" destination="1RJ-nY-djE" id="7v0-Ag-Vn1"/>
+                <outlet property="lineView" destination="n9E-wu-Qjq" id="Owh-kN-uat"/>
+                <outlet property="lineViewHeight" destination="rMF-VJ-aoc" id="ES8-PG-suB"/>
                 <outlet property="monthLabel" destination="1uM-lK-Cbi" id="pV6-sK-6KL"/>
                 <outlet property="yearLabel" destination="i9T-Ta-rFq" id="uW1-hy-8BW"/>
             </connections>

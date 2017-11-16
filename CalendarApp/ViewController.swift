@@ -11,12 +11,12 @@ import EventKit
 import EventKitUI
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var calendarCollectionView: UICollectionView!
     @IBOutlet weak var calendarTableView: UITableView!
-    var isEventAccessGiven : Bool = false
+    let locationManager = MSLocationManager.sharedManager
+    let calendarViewModel = MSCalendarViewModel()
     var eventStore: EKEventStore = EKEventStore()
-    var defaultCalendar: EKCalendar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +34,8 @@ class ViewController: UIViewController {
         let status = EKEventStore.authorizationStatus(for: EKEntityType.event)
         
         switch status {
-
-        case .authorized: accessGrantedForCalendar()
-        
+        case .authorized: calendarViewModel.accessGrantedForCalendar(eventStore : eventStore)
         case .notDetermined: requestForCalendarAccess()
-        
         case .denied, .restricted:
             let alertController = UIAlertController(title: "Warning", message: "Permission not granted for Calendar", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: {action in})
@@ -53,16 +50,10 @@ class ViewController: UIViewController {
         eventStore.requestAccess(to: .event) {[weak self] granted, error in
             if granted {
                 DispatchQueue.main.async {
-                    self?.accessGrantedForCalendar()
+                    self?.calendarViewModel.accessGrantedForCalendar(eventStore : (self?.eventStore)!)
                 }
             }
         }
-    }
-    
-    private func accessGrantedForCalendar() {
-        // Let's get the default calendar associated with our event store
-        isEventAccessGiven = true
-        defaultCalendar = self.eventStore.defaultCalendarForNewEvents
     }
     
     func showTodaysday(index : Int, animated : Bool) {
@@ -80,6 +71,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : UITableViewDataSource,UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MSDateManager.dateManager.totalDays()
     }
@@ -88,19 +80,27 @@ extension ViewController : UITableViewDataSource,UITableViewDelegate {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "MSEventTableViewCell") as? MSEventTableViewCell {
             cell.resetToDefaultValues()
             cell.setValues(indexPath: indexPath)
-            if isEventAccessGiven {
-                let events = fetchEvent(index: indexPath.row)
-                if events.count > 0 {
-                    // show event to calendar
-                    for event in events {
-                        cell.eventTitleLabel.text = event.title
-                        print(event.title)
-                    }
-                } else {
-                    cell.eventTitleLabel.text = "No Event"
-                }
+            if calendarViewModel.isEventAccessGiven {
+                let events = calendarViewModel.fetchEvent(index: indexPath.row)
+                cell.setEventInfo(events: events)
             }
-
+            
+            
+            if let location = locationManager.userLocation {
+                let timeInterval = round((MSDateManager.dateManager.dateForIndex(index: indexPath.row)?.timeIntervalSince1970)!) //events time
+                
+                let timeInInteger = Int(timeInterval)
+                calendarViewModel.fetchWeatherInfoFor(time: String(timeInInteger),location : location, completion: { (weatherResult) in
+                    DispatchQueue.main.async {
+                        switch weatherResult {
+                        case let .success(weather):
+                            cell.setWeatherInfo(weather: weather)
+                        case let .failure(error):
+                            print("Error fetching weather: \(error)")
+                        }
+                    }
+                })
+            }
             return cell
         }
         return UITableViewCell()
@@ -108,7 +108,7 @@ extension ViewController : UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let events = fetchEvent(index: indexPath.row)
+        let events = calendarViewModel.fetchEvent(index: indexPath.row)
         if events.count > 0 {
             if let eventViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EKEventViewController") as? EKEventViewController {
                 eventViewController.event = events[0]
@@ -127,19 +127,6 @@ extension ViewController : UITableViewDataSource,UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        if isEventAccessGiven {
-//            let events = fetchEvent(index: indexPath.row)
-//            if events.count > 0 {
-//                // show event to calendar
-//                for event in events {
-//                    cell.e
-//                    print(event.title)
-//                }
-//            }
-//        }
-
-    }
 }
 
 extension ViewController : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -156,7 +143,7 @@ extension ViewController : UICollectionViewDelegate,UICollectionViewDataSource, 
             return cell
         }
         return UICollectionViewCell()
-   }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemWidth = collectionView.bounds.size.width / 7
@@ -164,29 +151,7 @@ extension ViewController : UICollectionViewDelegate,UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        collectionView.backgroundColor = UIColor.gray
-    }
-    
-}
-
-extension ViewController {
-    
-    private func fetchEvent(index : Int) -> [EKEvent] {
-        let startDate = MSDateManager.dateManager.dateForIndex(index: index)
-        let endDate = MSDateManager.dateManager.dateForIndex(index: index+1)
-
-        // We will only search the default calendar for our events
-        let calendarArray: [EKCalendar] = [self.defaultCalendar]
-        
-        // Create the predicate
-        let predicate = self.eventStore.predicateForEvents(withStart: startDate!,
-                                                           end: endDate!,
-                                                           calendars: calendarArray)
-        
-        // Fetch all events that match the predicate
-        let events = self.eventStore.events(matching: predicate)
-        
-        return events
+        //        collectionView.backgroundColor = UIColor.gray
     }
     
 }
@@ -196,14 +161,14 @@ extension ViewController : EKEventEditViewDelegate {
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         // Dismiss the modal view controller
         self.dismiss(animated: true) {[weak self] in
-//            if action != .canceled {
-//                DispatchQueue.main.async {
-//                    self?.calendarTableView.reloadData()
-//                }
-//            }
+            //            if action != .canceled {
+            //                DispatchQueue.main.async {
+            //                    self?.calendarTableView.reloadData()
+            //                }
+            //            }
         }
     }
     func eventEditViewControllerDefaultCalendar(forNewEvents controller: EKEventEditViewController) -> EKCalendar {
-        return self.defaultCalendar
+        return self.calendarViewModel.defaultCalendar
     }
 }

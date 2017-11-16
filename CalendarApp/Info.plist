@@ -26,6 +26,10 @@
 	<string>Main</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Accessing Events</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Accessing Temperature</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Accessing Temperature</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
