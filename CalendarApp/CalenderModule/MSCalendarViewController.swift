@@ -10,19 +10,19 @@ import UIKit
 import EventKit
 import EventKitUI
 
-class ViewController: UIViewController {
+class MSCalendarViewController: UIViewController {
     
     @IBOutlet weak var calendarCollectionView: UICollectionView!
     @IBOutlet weak var calendarTableView: UITableView!
-    let locationManager = MSLocationManager.sharedManager
     let calendarViewModel = MSCalendarViewModel()
     var eventStore: EKEventStore = EKEventStore()
+    private var collectionViewSelected: IndexPath?
+    private var didSelectCollection = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
         checkEventStoreAccessForCalendar()
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,7 +44,6 @@ class ViewController: UIViewController {
         }
     }
     
-    
     // Ask the user for access to their Calendar
     private func requestForCalendarAccess() {
         eventStore.requestAccess(to: .event) {[weak self] granted, error in
@@ -56,7 +55,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func showTodaysday(index : Int, animated : Bool) {
+    private func showTodaysday(index : Int, animated : Bool) {
         let indexPath = IndexPath(row: index, section: 0)
         calendarCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
         calendarTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
@@ -71,48 +70,62 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController : UITableViewDataSource,UITableViewDelegate {
+extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return MSDateManager.dateManager.totalDays()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "MSEventTableViewCell") as? MSEventTableViewCell {
-            cell.resetToDefaultValues()
-            cell.setValues(indexPath: indexPath)
-            if calendarViewModel.isEventAccessGiven {
-                let events = calendarViewModel.fetchEvent(index: indexPath.row)
-                cell.setEventInfo(events: events)
-            }
-            
-            
-            if let location = locationManager.userLocation {
-                let timeInterval = round((MSDateManager.dateManager.dateForIndex(index: indexPath.row)?.timeIntervalSince1970)!) //events time
-                
-                let timeInInteger = Int(timeInterval)
-                calendarViewModel.fetchWeatherInfoFor(time: String(timeInInteger),location : location, completion: { (weatherResult) in
-                    DispatchQueue.main.async {
-                        switch weatherResult {
-                        case let .success(weather):
-                            cell.setWeatherInfo(weather: weather)
-                        case let .failure(error):
-                            print("Error fetching weather: \(error)")
-                        }
-                    }
-                })
-            }
-            return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MSEventTableViewCell") as? MSEventTableViewCell else {
+            return UITableViewCell()
         }
-        return UITableViewCell()
+        cell.model = calendarViewModel.fetchModel(indexPath: indexPath)
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let events = calendarViewModel.fetchEvent(index: indexPath.row)
-        if events.count > 0 {
+        openEventController(indexPath: indexPath)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == calendarTableView, didSelectCollection == false else {
+            return
+        }
+        if let indexPaths = calendarTableView.indexPathsForVisibleRows, indexPaths.count > 0 {
+            if let indexPathTableView = collectionViewSelected {
+                if let cell = calendarCollectionView.cellForItem(at: indexPathTableView) as? MSDateCollectionViewCell {
+                    cell.model.cellSelection = .none
+                    cell.cellSelection = .none
+                } else {
+                    let model = calendarViewModel.fetchModel(indexPath: indexPathTableView)
+                    model.cellSelection = .none
+                }
+                collectionViewSelected = nil
+            }
+            collectionViewSelected = indexPaths[0]
+            let indexItem = IndexPath(item: indexPaths[0].row, section: indexPaths[0].section)
+            calendarCollectionView.scrollToItem(at: indexItem, at: UICollectionViewScrollPosition.bottom, animated: false)
+            if let cell = calendarCollectionView.cellForItem(at: indexItem) as? MSDateCollectionViewCell {
+                cell.model.cellSelection = .selected
+                cell.cellSelection = .selected
+            }
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard scrollView == calendarTableView else {
+            return
+        }
+        didSelectCollection = false
+    }
+    
+    private func openEventController(indexPath: IndexPath) {
+        let model = calendarViewModel.fetchModel(indexPath: indexPath)
+        if let event = model.eventModel {
             if let eventViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EKEventViewController") as? EKEventViewController {
-                eventViewController.event = events[0]
+                eventViewController.event = event
                 self.navigationController?.pushViewController(eventViewController, animated: true)
             }
         } else {
@@ -127,23 +140,25 @@ extension ViewController : UITableViewDataSource,UITableViewDelegate {
             self.present(addController, animated: true, completion: nil)
         }
     }
-    
 }
 
-extension ViewController : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MSCalendarViewController : UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return MSDateManager.dateManager.totalDays()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if let cell = calendarCollectionView.dequeueReusableCell(withReuseIdentifier: "MSDateCollectionViewCell", for: indexPath) as? MSDateCollectionViewCell {
-            
-            cell.resetToDefaultValues()
-            cell.setValues(indexPath: indexPath)
-            return cell
+        guard let cell = calendarCollectionView.dequeueReusableCell(withReuseIdentifier: "MSDateCollectionViewCell", for: indexPath) as? MSDateCollectionViewCell else {
+            return UICollectionViewCell()
         }
-        return UICollectionViewCell()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? MSDateCollectionViewCell {
+            cell.model = calendarViewModel.fetchModel(indexPath: indexPath)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -153,23 +168,33 @@ extension ViewController : UICollectionViewDelegate,UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? MSDateCollectionViewCell {
+            cell.model.cellSelection = .selected
+            cell.cellSelection = .selected
         }
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentInset)
+        didSelectCollection = true
+        calendarTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        if let previousIndexPath = collectionViewSelected {
+            if let cell = collectionView.cellForItem(at: previousIndexPath) as? MSDateCollectionViewCell {
+                cell.model.cellSelection = .none
+                cell.cellSelection = .none
+            } else {
+                let model = calendarViewModel.fetchModel(indexPath: previousIndexPath)
+                model.cellSelection = .none
+            }
+        }
+        collectionViewSelected = indexPath
     }
 }
 
-extension ViewController : EKEventEditViewDelegate {
+extension MSCalendarViewController : EKEventEditViewDelegate {
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         // Dismiss the modal view controller
-        self.dismiss(animated: true) {
-
-        }
+        self.dismiss(animated: true, completion: nil)
     }
+    
     func eventEditViewControllerDefaultCalendar(forNewEvents controller: EKEventEditViewController) -> EKCalendar {
         return self.calendarViewModel.defaultCalendar
     }
 }
+

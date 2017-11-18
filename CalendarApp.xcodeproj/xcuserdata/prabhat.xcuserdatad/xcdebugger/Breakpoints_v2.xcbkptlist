@@ -6,96 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CalendarApp/Weather/MSWeatherManager.swift"
-            timestampString = "532507236.415784"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "fetchWeather(location:time:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CalendarApp/Weather/MSWeather.swift"
-            timestampString = "532298387.933724"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "init(category:summary:temperature:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CalendarApp/MSCalendarViewModel.swift"
-            timestampString = "532507236.416206"
+            filePath = "CalendarApp/CalenderModule/Views/MSDateCollectionViewCell.swift"
+            timestampString = "532711939.898211"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "fetchWeatherInfoFor(time:location:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CalendarApp.MSCalendarViewModel.fetchWeatherInfoFor(time: Swift.String, location: CalendarApp.MSLocation, completion: (CalendarApp.WeatherResult) -&gt; ()) -&gt; ()"
-                  moduleName = "CalendarApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/prabhat/Desktop/MicrosoftCalendarApp/CalendarApp/MSCalendarViewModel.swift"
-                  timestampString = "532438456.926367"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "96">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in CalendarApp.MSCalendarViewModel.fetchWeatherInfoFor(time: Swift.String, location: CalendarApp.MSLocation, completion: (CalendarApp.WeatherResult) -&gt; ()) -&gt; ()"
-                  moduleName = "CalendarApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/prabhat/Desktop/MicrosoftCalendarApp/CalendarApp/MSCalendarViewModel.swift"
-                  timestampString = "532438456.930745"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49"
-                  offsetFromSymbolStart = "104">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CalendarApp/MSCalendarViewModel.swift"
-            timestampString = "532507236.416481"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "fetchWeatherInfoFor(time:location:completion:)"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "setValues()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

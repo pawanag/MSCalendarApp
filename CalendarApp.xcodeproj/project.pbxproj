@@ -7,26 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		19117CA11FBC16C80091FF91 /* MSDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19117C9D1FBC16C80091FF91 /* MSDateCollectionViewCell.swift */; };
-		19117CA21FBC16C80091FF91 /* MSDateCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19117C9E1FBC16C80091FF91 /* MSDateCollectionViewCell.xib */; };
-		19117CA31FBC16C80091FF91 /* MSEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19117C9F1FBC16C80091FF91 /* MSEventTableViewCell.swift */; };
-		19117CA41FBC16C80091FF91 /* MSEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19117CA01FBC16C80091FF91 /* MSEventTableViewCell.xib */; };
-		19212F6B1FB4BFA30072CF4E /* MSDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19212F6A1FB4BFA30072CF4E /* MSDateManager.swift */; };
-		19212F6C1FB4BFA30072CF4E /* MSDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19212F6A1FB4BFA30072CF4E /* MSDateManager.swift */; };
-		192D329F1FB5934E00079972 /* MSDateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D329E1FB5934E00079972 /* MSDateHelper.swift */; };
-		192D32A01FB5934E00079972 /* MSDateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D329E1FB5934E00079972 /* MSDateHelper.swift */; };
 		194B0CA51FBA2E1700CC44F6 /* MSWeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194B0CA11FBA2E1600CC44F6 /* MSWeatherManager.swift */; };
 		194B0CA61FBA2E1700CC44F6 /* MSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194B0CA21FBA2E1600CC44F6 /* MSLocation.swift */; };
 		194B0CA71FBA2E1700CC44F6 /* MSWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194B0CA31FBA2E1600CC44F6 /* MSWeather.swift */; };
 		194B0CA81FBA2E1700CC44F6 /* MSLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194B0CA41FBA2E1600CC44F6 /* MSLocationManager.swift */; };
-		19E359261FBC432A0008FF23 /* MSCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E359251FBC432A0008FF23 /* MSCalendarViewModel.swift */; };
 		19ECC9501FB1C86500E6F937 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ECC94F1FB1C86500E6F937 /* AppDelegate.swift */; };
-		19ECC9521FB1C86500E6F937 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ECC9511FB1C86500E6F937 /* ViewController.swift */; };
 		19ECC9551FB1C86500E6F937 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19ECC9531FB1C86500E6F937 /* Main.storyboard */; };
 		19ECC9571FB1C86500E6F937 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19ECC9561FB1C86500E6F937 /* Assets.xcassets */; };
 		19ECC95A1FB1C86500E6F937 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19ECC9581FB1C86500E6F937 /* LaunchScreen.storyboard */; };
 		19ECC9651FB1C86600E6F937 /* CalendarAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ECC9641FB1C86600E6F937 /* CalendarAppTests.swift */; };
 		19ECC9701FB1C86600E6F937 /* CalendarAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19ECC96F1FB1C86600E6F937 /* CalendarAppUITests.swift */; };
+		19F4F8561FC055530092682A /* MSCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F8511FC055530092682A /* MSCalendarViewController.swift */; };
+		19F4F8571FC055530092682A /* MSCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F8521FC055530092682A /* MSCalendarViewModel.swift */; };
+		19F4F8581FC055530092682A /* MSDateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F8541FC055530092682A /* MSDateHelper.swift */; };
+		19F4F8591FC055530092682A /* MSDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F8551FC055530092682A /* MSDateManager.swift */; };
+		19F4F85B1FC0559C0092682A /* MSDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F85A1FC0559C0092682A /* MSDateModel.swift */; };
+		19F4F8611FC056580092682A /* MSDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F85D1FC056580092682A /* MSDateCollectionViewCell.swift */; };
+		19F4F8621FC056580092682A /* MSDateCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19F4F85E1FC056580092682A /* MSDateCollectionViewCell.xib */; };
+		19F4F8631FC056580092682A /* MSEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F85F1FC056580092682A /* MSEventTableViewCell.swift */; };
+		19F4F8641FC056580092682A /* MSEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19F4F8601FC056580092682A /* MSEventTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,20 +46,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		19117C9D1FBC16C80091FF91 /* MSDateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateCollectionViewCell.swift; sourceTree = "<group>"; };
-		19117C9E1FBC16C80091FF91 /* MSDateCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSDateCollectionViewCell.xib; sourceTree = "<group>"; };
-		19117C9F1FBC16C80091FF91 /* MSEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSEventTableViewCell.swift; sourceTree = "<group>"; };
-		19117CA01FBC16C80091FF91 /* MSEventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSEventTableViewCell.xib; sourceTree = "<group>"; };
-		19212F6A1FB4BFA30072CF4E /* MSDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateManager.swift; sourceTree = "<group>"; };
-		192D329E1FB5934E00079972 /* MSDateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateHelper.swift; sourceTree = "<group>"; };
 		194B0CA11FBA2E1600CC44F6 /* MSWeatherManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSWeatherManager.swift; sourceTree = "<group>"; };
 		194B0CA21FBA2E1600CC44F6 /* MSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSLocation.swift; sourceTree = "<group>"; };
 		194B0CA31FBA2E1600CC44F6 /* MSWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSWeather.swift; sourceTree = "<group>"; };
 		194B0CA41FBA2E1600CC44F6 /* MSLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSLocationManager.swift; sourceTree = "<group>"; };
-		19E359251FBC432A0008FF23 /* MSCalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCalendarViewModel.swift; sourceTree = "<group>"; };
 		19ECC94C1FB1C86500E6F937 /* CalendarApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19ECC94F1FB1C86500E6F937 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		19ECC9511FB1C86500E6F937 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		19ECC9541FB1C86500E6F937 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		19ECC9561FB1C86500E6F937 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		19ECC9591FB1C86500E6F937 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -71,6 +62,15 @@
 		19ECC96B1FB1C86600E6F937 /* CalendarAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalendarAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19ECC96F1FB1C86600E6F937 /* CalendarAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAppUITests.swift; sourceTree = "<group>"; };
 		19ECC9711FB1C86600E6F937 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		19F4F8511FC055530092682A /* MSCalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCalendarViewController.swift; sourceTree = "<group>"; };
+		19F4F8521FC055530092682A /* MSCalendarViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCalendarViewModel.swift; sourceTree = "<group>"; };
+		19F4F8541FC055530092682A /* MSDateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateHelper.swift; sourceTree = "<group>"; };
+		19F4F8551FC055530092682A /* MSDateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateManager.swift; sourceTree = "<group>"; };
+		19F4F85A1FC0559C0092682A /* MSDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateModel.swift; sourceTree = "<group>"; };
+		19F4F85D1FC056580092682A /* MSDateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDateCollectionViewCell.swift; sourceTree = "<group>"; };
+		19F4F85E1FC056580092682A /* MSDateCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSDateCollectionViewCell.xib; sourceTree = "<group>"; };
+		19F4F85F1FC056580092682A /* MSEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSEventTableViewCell.swift; sourceTree = "<group>"; };
+		19F4F8601FC056580092682A /* MSEventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSEventTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,17 +98,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		19117C9C1FBC16C80091FF91 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				19117C9D1FBC16C80091FF91 /* MSDateCollectionViewCell.swift */,
-				19117C9E1FBC16C80091FF91 /* MSDateCollectionViewCell.xib */,
-				19117C9F1FBC16C80091FF91 /* MSEventTableViewCell.swift */,
-				19117CA01FBC16C80091FF91 /* MSEventTableViewCell.xib */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		193180C81FBA23F600793084 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,7 +112,6 @@
 		19ECC9431FB1C86500E6F937 = {
 			isa = PBXGroup;
 			children = (
-				19212F6A1FB4BFA30072CF4E /* MSDateManager.swift */,
 				19ECC94E1FB1C86500E6F937 /* CalendarApp */,
 				19ECC9631FB1C86600E6F937 /* CalendarAppTests */,
 				19ECC96E1FB1C86600E6F937 /* CalendarAppUITests */,
@@ -144,16 +132,14 @@
 		19ECC94E1FB1C86500E6F937 /* CalendarApp */ = {
 			isa = PBXGroup;
 			children = (
-				19117C9C1FBC16C80091FF91 /* Views */,
-				193180C81FBA23F600793084 /* Weather */,
 				19ECC94F1FB1C86500E6F937 /* AppDelegate.swift */,
-				19ECC9511FB1C86500E6F937 /* ViewController.swift */,
+				19F4F8501FC055530092682A /* CalenderModule */,
+				19F4F8531FC055530092682A /* Utility */,
+				193180C81FBA23F600793084 /* Weather */,
 				19ECC9531FB1C86500E6F937 /* Main.storyboard */,
-				19ECC9561FB1C86500E6F937 /* Assets.xcassets */,
 				19ECC9581FB1C86500E6F937 /* LaunchScreen.storyboard */,
+				19ECC9561FB1C86500E6F937 /* Assets.xcassets */,
 				19ECC95B1FB1C86500E6F937 /* Info.plist */,
-				192D329E1FB5934E00079972 /* MSDateHelper.swift */,
-				19E359251FBC432A0008FF23 /* MSCalendarViewModel.swift */,
 			);
 			path = CalendarApp;
 			sourceTree = "<group>";
@@ -174,6 +160,37 @@
 				19ECC9711FB1C86600E6F937 /* Info.plist */,
 			);
 			path = CalendarAppUITests;
+			sourceTree = "<group>";
+		};
+		19F4F8501FC055530092682A /* CalenderModule */ = {
+			isa = PBXGroup;
+			children = (
+				19F4F85C1FC056580092682A /* Views */,
+				19F4F8511FC055530092682A /* MSCalendarViewController.swift */,
+				19F4F8521FC055530092682A /* MSCalendarViewModel.swift */,
+				19F4F85A1FC0559C0092682A /* MSDateModel.swift */,
+			);
+			path = CalenderModule;
+			sourceTree = "<group>";
+		};
+		19F4F8531FC055530092682A /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				19F4F8541FC055530092682A /* MSDateHelper.swift */,
+				19F4F8551FC055530092682A /* MSDateManager.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		19F4F85C1FC056580092682A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				19F4F85D1FC056580092682A /* MSDateCollectionViewCell.swift */,
+				19F4F85E1FC056580092682A /* MSDateCollectionViewCell.xib */,
+				19F4F85F1FC056580092682A /* MSEventTableViewCell.swift */,
+				19F4F8601FC056580092682A /* MSEventTableViewCell.xib */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,10 +300,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19F4F8641FC056580092682A /* MSEventTableViewCell.xib in Resources */,
 				19ECC95A1FB1C86500E6F937 /* LaunchScreen.storyboard in Resources */,
 				19ECC9571FB1C86500E6F937 /* Assets.xcassets in Resources */,
-				19117CA21FBC16C80091FF91 /* MSDateCollectionViewCell.xib in Resources */,
-				19117CA41FBC16C80091FF91 /* MSEventTableViewCell.xib in Resources */,
+				19F4F8621FC056580092682A /* MSDateCollectionViewCell.xib in Resources */,
 				19ECC9551FB1C86500E6F937 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,16 +330,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				194B0CA71FBA2E1700CC44F6 /* MSWeather.swift in Sources */,
-				19ECC9521FB1C86500E6F937 /* ViewController.swift in Sources */,
+				19F4F8571FC055530092682A /* MSCalendarViewModel.swift in Sources */,
 				19ECC9501FB1C86500E6F937 /* AppDelegate.swift in Sources */,
+				19F4F8561FC055530092682A /* MSCalendarViewController.swift in Sources */,
 				194B0CA81FBA2E1700CC44F6 /* MSLocationManager.swift in Sources */,
 				194B0CA51FBA2E1700CC44F6 /* MSWeatherManager.swift in Sources */,
-				19117CA31FBC16C80091FF91 /* MSEventTableViewCell.swift in Sources */,
+				19F4F8631FC056580092682A /* MSEventTableViewCell.swift in Sources */,
+				19F4F8591FC055530092682A /* MSDateManager.swift in Sources */,
 				194B0CA61FBA2E1700CC44F6 /* MSLocation.swift in Sources */,
-				19E359261FBC432A0008FF23 /* MSCalendarViewModel.swift in Sources */,
-				192D329F1FB5934E00079972 /* MSDateHelper.swift in Sources */,
-				19117CA11FBC16C80091FF91 /* MSDateCollectionViewCell.swift in Sources */,
-				19212F6B1FB4BFA30072CF4E /* MSDateManager.swift in Sources */,
+				19F4F8611FC056580092682A /* MSDateCollectionViewCell.swift in Sources */,
+				19F4F85B1FC0559C0092682A /* MSDateModel.swift in Sources */,
+				19F4F8581FC055530092682A /* MSDateHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,8 +349,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				19ECC9651FB1C86600E6F937 /* CalendarAppTests.swift in Sources */,
-				19212F6C1FB4BFA30072CF4E /* MSDateManager.swift in Sources */,
-				192D32A01FB5934E00079972 /* MSDateHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
