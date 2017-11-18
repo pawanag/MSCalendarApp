@@ -16,6 +16,7 @@ class MSDateCollectionViewCell: UICollectionViewCell {
     let dateHelper = MSDateHelper()
     @IBOutlet weak var lineView: UIView!
 
+    @IBOutlet weak var circleView: UIView!
     @IBOutlet weak var lineViewHeight: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,11 +28,15 @@ class MSDateCollectionViewCell: UICollectionViewCell {
         monthLabel.text = ""
         dateLabel.text = ""
         yearLabel.text = ""
+        circleView.isHidden = true
         backgroundColor = UIColor.white
     }
     
     func setValues(indexPath: IndexPath) {
         _ = MSDateManager.dateManager.dateForIndex(index: indexPath.row)
+        
+        circleView.isHidden = isSelected ? false : true
+        
         if let dayOfMonth = dateHelper.dayOfMonthFor(index: indexPath.row){
             
             if dayOfMonth == 1 {
@@ -44,5 +49,9 @@ class MSDateCollectionViewCell: UICollectionViewCell {
             dateLabel.text = String(dayOfMonth)
             print(dayOfMonth)
         }
+    }
+    
+    func updateCellLayout() {
+        circleView.isHidden = isSelected ? false : true
     }
 }

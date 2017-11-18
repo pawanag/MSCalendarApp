@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     let locationManager = MSLocationManager.sharedManager
     let calendarViewModel = MSCalendarViewModel()
     var eventStore: EKEventStore = EKEventStore()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
@@ -61,6 +61,7 @@ class ViewController: UIViewController {
         calendarCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
         calendarTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         calendarCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
+        
     }
     
     private func registerCells() {
@@ -151,21 +152,21 @@ extension ViewController : UICollectionViewDelegate,UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        collectionView.backgroundColor = UIColor.gray
+        if let cell = collectionView.cellForItem(at: indexPath) as? MSDateCollectionViewCell {
+        }
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentInset)
+    }
 }
 
 extension ViewController : EKEventEditViewDelegate {
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         // Dismiss the modal view controller
-        self.dismiss(animated: true) {[weak self] in
-            //            if action != .canceled {
-            //                DispatchQueue.main.async {
-            //                    self?.calendarTableView.reloadData()
-            //                }
-            //            }
+        self.dismiss(animated: true) {
+
         }
     }
     func eventEditViewControllerDefaultCalendar(forNewEvents controller: EKEventEditViewController) -> EKCalendar {

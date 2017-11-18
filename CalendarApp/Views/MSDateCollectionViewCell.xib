@@ -18,6 +18,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="46" height="47"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pca-DH-cfV">
+                        <rect key="frame" x="8" y="8" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.72549019609999998" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <viewLayoutGuide key="safeArea" id="qEr-Kz-otI"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="16"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2X0-ey-x09">
                         <rect key="frame" x="11.5" y="14" width="23.5" height="19.5"/>
                         <subviews>
@@ -60,6 +71,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="46" height="47"/>
             <connections>
+                <outlet property="circleView" destination="Pca-DH-cfV" id="VKD-uA-eEY"/>
                 <outlet property="dateLabel" destination="1RJ-nY-djE" id="7v0-Ag-Vn1"/>
                 <outlet property="lineView" destination="n9E-wu-Qjq" id="Owh-kN-uat"/>
                 <outlet property="lineViewHeight" destination="rMF-VJ-aoc" id="ES8-PG-suB"/>
