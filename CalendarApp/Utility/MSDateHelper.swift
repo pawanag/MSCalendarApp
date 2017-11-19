@@ -26,6 +26,14 @@ class MSDateHelper: NSObject {
         return nil
     }
     
+    func monthStringCompleteFor(index : Int)-> String? {
+        if let date = dateManager.dateForIndex(index: index) {
+            dateFormatter.dateFormat = "MMMM"
+            return dateFormatter.string(from: date)
+        }
+        return nil
+    }
+    
     func yearStringFor(index : Int)-> String? {
         if let date = dateManager.dateForIndex(index: index) {
             dateFormatter.dateFormat = "YYYY"

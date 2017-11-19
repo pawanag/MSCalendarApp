@@ -17,7 +17,7 @@ class MSWeather: NSObject {
         self.category = category
         if let temperatureInDouble = Double(temperature) {
             let tempInCelsius = (temperatureInDouble - 32)*(5/9)
-            self.temperature = String(format: "%.2f", ceil(tempInCelsius*100)/100) + " °C"
+            self.temperature = String(format: "%.0f", ceil(tempInCelsius*100)/100) + " °C"
         } else {
             self.temperature = "temperature"
         }

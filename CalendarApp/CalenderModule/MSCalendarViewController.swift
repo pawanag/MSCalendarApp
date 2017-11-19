@@ -18,16 +18,22 @@ class MSCalendarViewController: UIViewController {
     var eventStore: EKEventStore = EKEventStore()
     private var collectionViewSelected: IndexPath?
     private var didSelectCollection = false
+    private var isFirstTimeLaunch : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        isFirstTimeLaunch = true
         registerCells()
         checkEventStoreAccessForCalendar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        showTodaysday(index: MSDateManager.dateManager.indexForToday(), animated: false)
+        if isFirstTimeLaunch {
+            showTodaysday(index: MSDateManager.dateManager.indexForToday(), animated: false)
+        }
+        self.hidesBottomBarWhenPushed = true
+        isFirstTimeLaunch = false
     }
     
     private func checkEventStoreAccessForCalendar() {
@@ -57,10 +63,13 @@ class MSCalendarViewController: UIViewController {
     
     private func showTodaysday(index : Int, animated : Bool) {
         let indexPath = IndexPath(row: index, section: 0)
+        
         calendarCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
         calendarTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         calendarCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
-        
+        DispatchQueue.main.async {
+            self.navigationController?.navigationBar.topItem?.title = MSDateHelper().monthStringCompleteFor(index: index)
+        }
     }
     
     private func registerCells() {
@@ -89,8 +98,14 @@ extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,U
         openEventController(indexPath: indexPath)
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? MSEventTableViewCell {
+            cell.model = calendarViewModel.fetchModel(indexPath: indexPath)
+        }
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView == calendarTableView, didSelectCollection == false else {
+        guard scrollView == calendarTableView, didSelectCollection == false , isFirstTimeLaunch == false else {
             return
         }
         if let indexPaths = calendarTableView.indexPathsForVisibleRows, indexPaths.count > 0 {
@@ -110,6 +125,7 @@ extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,U
             if let cell = calendarCollectionView.cellForItem(at: indexItem) as? MSDateCollectionViewCell {
                 cell.model.cellSelection = .selected
                 cell.cellSelection = .selected
+                self.navigationController?.navigationBar.topItem?.title = cell.model.titleMonth
             }
         }
     }
@@ -122,6 +138,11 @@ extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,U
     }
     
     private func openEventController(indexPath: IndexPath) {
+        guard self.calendarViewModel.defaultCalendar != nil else {
+           checkEventStoreAccessForCalendar()
+            return
+        }
+        
         let model = calendarViewModel.fetchModel(indexPath: indexPath)
         if let event = model.eventModel {
             if let eventViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EKEventViewController") as? EKEventViewController {
@@ -170,6 +191,7 @@ extension MSCalendarViewController : UICollectionViewDelegate,UICollectionViewDa
         if let cell = collectionView.cellForItem(at: indexPath) as? MSDateCollectionViewCell {
             cell.model.cellSelection = .selected
             cell.cellSelection = .selected
+            self.navigationController?.navigationBar.topItem?.title = cell.model.titleMonth
         }
         didSelectCollection = true
         calendarTableView.scrollToRow(at: indexPath, at: .top, animated: true)
@@ -190,11 +212,12 @@ extension MSCalendarViewController : EKEventEditViewDelegate {
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         // Dismiss the modal view controller
+        self.calendarTableView.reloadData()
         self.dismiss(animated: true, completion: nil)
     }
     
     func eventEditViewControllerDefaultCalendar(forNewEvents controller: EKEventEditViewController) -> EKCalendar {
-        return self.calendarViewModel.defaultCalendar
+        return self.calendarViewModel.defaultCalendar!
     }
 }
 

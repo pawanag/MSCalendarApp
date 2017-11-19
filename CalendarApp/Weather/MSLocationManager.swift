@@ -19,7 +19,7 @@ class MSLocationManager: NSObject, CLLocationManagerDelegate {
     
     weak var delegate: LocationManagerDelegate?
     
-    private override init() { }
+    override init() { }
     
     static let sharedManager : MSLocationManager = {
         let instance = MSLocationManager()

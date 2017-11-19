@@ -14,6 +14,7 @@ class MSDateModel: NSObject {
     var month: String?
     var year: String?
     var date: String?
+    var titleMonth : String?
     var cellSelection: CellSelection = .none
     var eventModel: EKEvent?
     @objc dynamic var weather: MSWeather?
@@ -25,6 +26,7 @@ class MSDateModel: NSObject {
                 month = dateHelper.monthStringFor(index: index)
                 year = dateHelper.yearStringFor(index: index)
             }
+            titleMonth = dateHelper.monthStringCompleteFor(index:index)
             date = dateHelper.sectionTitleFor(index: index)
             day = String(dayOfMonth)
         }

@@ -9,6 +9,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>CalendarAppTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>19ECC94B1FB1C86500E6F937</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>19ECC95F1FB1C86600E6F937</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>19ECC96A1FB1C86600E6F937</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

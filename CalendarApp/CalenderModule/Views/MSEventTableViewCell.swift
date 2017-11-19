@@ -15,7 +15,6 @@ class MSEventTableViewCell: UITableViewCell {
     @IBOutlet weak var eventTitleLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var subTitleLabel: UILabel!
     
     let dateHelper = MSDateHelper()
     var model: MSDateModel! {
@@ -33,7 +32,7 @@ class MSEventTableViewCell: UITableViewCell {
         if keyPath == "weather" {
             if let weather = model.weather {
                 DispatchQueue.main.async {
-                    self.temperatureLabel.text = weather.temperature
+                    self.temperatureLabel.text = weather.temperature + " " +  MSWeatherManager().getWeatherSummaryFrom(category : weather.category)
                 }
             }
         }
@@ -41,7 +40,6 @@ class MSEventTableViewCell: UITableViewCell {
     
     private func resetToDefaultValues() {
         titleLabel.text = ""
-        subTitleLabel.text = ""
         eventTitleLabel.text = ""
         backgroundColor = UIColor.white
         eventTitleLabel.textColor = UIColor.lightGray
@@ -54,7 +52,6 @@ class MSEventTableViewCell: UITableViewCell {
         if let day = model.day {
             if day == "1" {
                 titleLabel.isHidden = false
-                subTitleLabel.isHidden = false
             }
             titleLabel.text = model.date
         }

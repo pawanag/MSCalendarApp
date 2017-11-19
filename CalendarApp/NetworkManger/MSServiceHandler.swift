@@ -25,7 +25,7 @@ class MSServiceHandler: NSObject {
         
         var urlReq:URLRequest = URLRequest(url: url)
         urlReq.httpMethod = "GET"
-        loadRequest(urlReq, handler: { [weak self](error, responseDictionary) throws -> Void in
+        loadRequest(urlReq, handler: { (error, responseDictionary) throws -> Void in
             guard let responseDictionary = responseDictionary  else {
                 handler(error,nil)
                 return
@@ -40,14 +40,14 @@ class MSServiceHandler: NSObject {
             if let data = data {
                 var object : Any?
                 object = try JSONSerialization.jsonObject(with: data, options: [JSONSerialization.ReadingOptions.allowFragments, JSONSerialization.ReadingOptions.mutableContainers])
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     do {
                         try handler(nil,object)
                     }
                     catch {
                         assertionFailure("couldn't")
                     }
-                }
+//                }
             }
         }) { (data, response, error) in
             do {

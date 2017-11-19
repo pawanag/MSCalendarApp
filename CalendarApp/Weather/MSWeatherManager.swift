@@ -63,34 +63,33 @@ enum WeatherError: Error {
 }
 
 class MSWeatherManager: NSObject {
-
+    
     private let baseURLString = "https://api.darksky.net/forecast/"
-    private let apiKey = "5f709641557cdd468ee3cbc9001aa437"
+    private let apiKey = "a0be4defa7d8828ebc82c5a6cb0390aa"
+    private var serviceHandler: MSServiceHandler
     
     private let session: URLSession = {
         let config = URLSessionConfiguration.default
         return URLSession(configuration: config)
     }()
     
+    init(webserviceHandler: MSServiceHandler = MSServiceHandler()) {
+        serviceHandler = webserviceHandler
+        super.init()
+    }
     
     func fetchWeather(location: MSLocation,time: String, completion: @escaping (WeatherResult) -> Void) {
         let url = weatherUrl(fromLatitude: location.latitude, longitude: location.longitude, time: time)
-        
-        let urlRequest = URLRequest(url: url) //url , method, parameter, headers
-        let task = session.dataTask(with: urlRequest) {[weak self] (data, response, error) in //data,_,error
+        serviceHandler.fetchWeatherInfo(url: url) { (error, data) in
             guard let jsonData = data else {
                 completion(.failure(error!))
                 return
             }
-            if let result = self?.weather(fromJSON: jsonData) {
-                completion(result)
-            }
+            completion(self.weather(fromJSON: jsonData))
         }
-        
-        task.resume()
     }
     
-     func getWeatherSummaryFrom(category : WeatherCategory) -> String {
+    func getWeatherSummaryFrom(category : WeatherCategory) -> String {
         switch category {
         case .Clear :
             return "Clear"
@@ -109,8 +108,6 @@ class MSWeatherManager: NSObject {
         }
     }
     
-    // param lat , long, date
-    
     func weatherUrl(fromLatitude latitude: String, longitude: String, time: String) -> URL {
         
         let baseParam = [
@@ -121,12 +118,12 @@ class MSWeatherManager: NSObject {
         ]
         
         var urlString = baseURLString
-       
+        
         urlString += baseParam["key"]! + "/"
         urlString += baseParam["latitude"]! + ","
         urlString += baseParam["longitude"]! + ","
         urlString += baseParam["time"]!
-       
+        
         let components = URLComponents(string: urlString)
         return (components?.url!)!
     }
@@ -145,30 +142,22 @@ class MSWeatherManager: NSObject {
         return MSWeather(category: weather, summary: summaryValue, temperature: temperatureStringValue)
     }
     
-    func weather(fromJSON data: Data) -> WeatherResult {
-        do {
-            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
-            
-            guard let jsonDictionary = jsonObject as? [AnyHashable: Any],
-                let weatherDetailJson = jsonDictionary["currently"] as? [String: Any]
-                else {
-                    return .failure(WeatherError.inValidJsonData)
-            }
-            
-            var finalWeather: MSWeather? = nil
-            
-            if let weather = weather(fromJSON: weatherDetailJson) {
-                finalWeather = weather
-            }
-            
-            if finalWeather == nil {
+    func weather(fromJSON data: Any) -> WeatherResult {
+        guard let jsonDictionary = data as? [AnyHashable: Any],
+            let weatherDetailJson = jsonDictionary["currently"] as? [String: Any]
+            else {
                 return .failure(WeatherError.inValidJsonData)
-            }
-            
-            return .success(finalWeather!)
-            
-        } catch let error {
-            return .failure(error)
         }
+        
+        var finalWeather: MSWeather? = nil
+        if let weather = weather(fromJSON: weatherDetailJson) {
+            finalWeather = weather
+        }
+        if finalWeather == nil {
+            return .failure(WeatherError.inValidJsonData)
+        }
+        return .success(finalWeather!)
+        
     }
 }
+

@@ -20,8 +20,8 @@ let kSecondsInDay = (24*60*60)
         dateFormatter.dateStyle = .medium
         dateFormatter.locale = Locale(identifier: "en_US")
         
-        startDate = dateFormatter.date(from: "Jan 1, 2010")
-        endDate = dateFormatter.date(from: "Dec 31, 2030")
+        startDate = dateFormatter.date(from: "Jan 1, 2015")
+        endDate = dateFormatter.date(from: "Dec 31, 2025")
 
         var tempDate = startDate
         let dayOfWeek = Calendar.current.component(Calendar.Component.weekday, from: startDate)

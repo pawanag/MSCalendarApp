@@ -15,18 +15,23 @@ class MSCalendarViewModel: NSObject {
     
     var isEventAccessGiven : Bool = false
     var eventStore: EKEventStore!
-    var defaultCalendar: EKCalendar!
-    let weatherManager = MSWeatherManager()
+    var defaultCalendar: EKCalendar?
+    let weatherManager: MSWeatherManager
+    let locationManager: MSLocationManager
     private var dictionaryModels = [Int:MSDateModel]()
-    let locationManager = MSLocationManager.sharedManager
 
+    init(_ weatherManager: MSWeatherManager = MSWeatherManager(),locationManager: MSLocationManager = MSLocationManager.sharedManager) {
+        self.weatherManager = weatherManager
+        self.locationManager = locationManager
+    }
+    
     func fetchModel(indexPath: IndexPath) -> MSDateModel {
-        if let model = dictionaryModels[indexPath.row] {
+        if let model = dictionaryModels[indexPath.row], model.weather != nil {
             return model
         } else {
             let model = MSDateModel(index: indexPath.row)
             if isEventAccessGiven {
-                if let event = fetchEvent(index: indexPath.row).last {
+                if let event = fetchEvent(index: indexPath.row)?.last {
                    model.eventModel = event
                 }                
             }
@@ -36,10 +41,13 @@ class MSCalendarViewModel: NSObject {
         }
     }
     
-    private func fetchEvent(index : Int) -> [EKEvent] {
+    private func fetchEvent(index : Int) -> [EKEvent]? {
+        guard let defaultCalendar = defaultCalendar else {
+            return nil
+        }
         let startDate = MSDateManager.dateManager.dateForIndex(index: index)
         let endDate = MSDateManager.dateManager.dateForIndex(index: index+1)
-        let calendarArray: [EKCalendar] = [self.defaultCalendar]
+        let calendarArray: [EKCalendar] = [defaultCalendar]
         let predicate = self.eventStore.predicateForEvents(withStart: startDate!,
                                                            end: endDate!,
                                                            calendars: calendarArray)
@@ -55,10 +63,13 @@ class MSCalendarViewModel: NSObject {
     }
     
     func weatherFetch(indexPath:IndexPath,model: MSDateModel) {
+        guard model.weather == nil else {
+            return
+        }
         if let location = locationManager.userLocation {
             let timeInterval = round((MSDateManager.dateManager.dateForIndex(index: indexPath.row)?.timeIntervalSince1970)!) //events time
             let timeInInteger = Int(timeInterval)
-            fetchWeatherInfoFor(time: String(timeInInteger),location : location, completion: { (weatherResult) in
+            fetchWeather(info: String(timeInInteger),location : location, completion: { (weatherResult) in
                 DispatchQueue.main.async {
                     switch weatherResult {
                     case let .success(weather):
@@ -72,11 +83,11 @@ class MSCalendarViewModel: NSObject {
         }
     }
     
-    func fetchWeatherInfoFor(time : String,location : MSLocation, completion: @escaping (WeatherResult) -> Void) {
-        DispatchQueue.main.async {
+    func fetchWeather(info time : String,location : MSLocation, completion: @escaping (WeatherResult) -> Void) {
+//        DispatchQueue.main.async {
             self.weatherManager.fetchWeather(location: location, time: time) { (weatherResult) in
                 completion(weatherResult)
             }
-        }
+//        }
     }
 }
