@@ -15,7 +15,7 @@ struct MSConstants {
     static let kTableViewCell = "MSEventTableViewCell"
     static let kEventViewController = "EKEventViewController"
     static let kCollectionViewHeightExpanded = 200
-    static let kCollectionViewHeightNotExpanded = 120
+    static let kCollectionViewHeightNotExpanded = 100
     static let kIsEventSaved = "isEventSaved"
     static let kNoPermissionMessage = "Permission not granted for Calendar"
     static let kLocaleTimeIdentifier = "en_IN"
