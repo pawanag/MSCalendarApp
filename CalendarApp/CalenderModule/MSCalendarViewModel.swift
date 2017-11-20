@@ -90,10 +90,13 @@ class MSCalendarViewModel: NSObject {
         guard let calendar = defaultCalendar else {
             return
         }
+        
+        let todaysDateInMilliSeconds = Int(Date().timeIntervalSince1970)
+        
         let event = EKEvent(eventStore: self.eventStore)
         event.title = "Microsoft iOS Dev Event"
-        event.startDate = Date()
-        event.endDate = Date().addingTimeInterval(1*60*60)
+        event.startDate = Date(timeIntervalSince1970: TimeInterval(todaysDateInMilliSeconds - (6*60*60)))
+        event.endDate = Date(timeIntervalSince1970: TimeInterval(todaysDateInMilliSeconds + (6*60*60)))
         event.notes = "This is a test Microsoft iOS Dev Event"
         event.location = " Microsoft Bangalore Office"
         event.calendar = calendar

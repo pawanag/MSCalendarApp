@@ -15,14 +15,14 @@ struct MSConstants {
     static let kTableViewCell = "MSEventTableViewCell"
     static let kEventViewController = "EKEventViewController"
     static let kCollectionViewHeightExpanded = 200
-    static let kCollectionViewHeightNotExpanded = 150
+    static let kCollectionViewHeightNotExpanded = 120
     static let kIsEventSaved = "isEventSaved"
     static let kNoPermissionMessage = "Permission not granted for Calendar"
     static let kLocaleTimeIdentifier = "en_IN"
     static let kWarningTitle = "Warning"
     static let kOkMessage = "Ok"
     static let baseURLString = "https://api.darksky.net/forecast/"
-    static let apiKey = "e33d5a286a7ad44d8f2f2191d5aa56b2"
+    static let apiKey = "e664ebf3a3e41f3bc3e3189946937146"
     static let kCurrentTemperatureKey = "currently"
     static let kKeyConstant = "key"
     static let klatitude = "latitude"
