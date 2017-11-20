@@ -12,7 +12,6 @@ import UIKit
 class MSMockLocationManager: MSLocationManager {
     override init() {
         super.init()
-        userLocation = MSLocation(latitude: "28.704059", longitude: "77.102490"
-        )
+        userLocation = MSLocation(latitude: "28.704059", longitude: "77.102490")
     }
 }

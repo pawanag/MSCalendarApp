@@ -34,8 +34,7 @@ class MSNetworkRegistrar: NSObject, NetworkRegistrar,URLSessionDelegate {
                     try successhandler(data, response)
                 }
                 catch {
-                    print("couldn't")
-//                    assertionFailure("couldn't")
+                    print("Couldn't Fetch Data")
                 }
                 
             } else {
@@ -43,7 +42,7 @@ class MSNetworkRegistrar: NSObject, NetworkRegistrar,URLSessionDelegate {
                     try failurehandler(nil,nil,error)
                 }
                 catch {
-                    print("couldn't")
+                    print("Couldn't Fetch Data")
                 }
             }
         }

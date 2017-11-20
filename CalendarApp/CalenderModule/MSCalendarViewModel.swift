@@ -19,12 +19,14 @@ class MSCalendarViewModel: NSObject {
     let weatherManager: MSWeatherManager
     let locationManager: MSLocationManager
     private var dictionaryModels = [Int:MSDateModel]()
-
+    @objc dynamic var isEventSaved : Bool = false
+    
     init(_ weatherManager: MSWeatherManager = MSWeatherManager(),locationManager: MSLocationManager = MSLocationManager.sharedManager) {
         self.weatherManager = weatherManager
         self.locationManager = locationManager
     }
     
+    // Fetching Model for the Indexpath
     func fetchModel(indexPath: IndexPath) -> MSDateModel {
         if let model = dictionaryModels[indexPath.row], model.weather != nil {
             return model
@@ -41,15 +43,15 @@ class MSCalendarViewModel: NSObject {
         }
     }
     
+    // Fetch Event for that Day
     private func fetchEvent(index : Int) -> [EKEvent]? {
         guard let defaultCalendar = defaultCalendar else {
             return nil
         }
         let startDate = MSDateManager.dateManager.dateForIndex(index: index)
-        let endDate = MSDateManager.dateManager.dateForIndex(index: index+1)
         let calendarArray: [EKCalendar] = [defaultCalendar]
         let predicate = self.eventStore.predicateForEvents(withStart: startDate!,
-                                                           end: endDate!,
+                                                           end: startDate!,
                                                            calendars: calendarArray)
         let events = self.eventStore.events(matching: predicate)        
         return events
@@ -83,11 +85,29 @@ class MSCalendarViewModel: NSObject {
         }
     }
     
+    // Static Event to be created and Saved
+    func createEventForToday() {
+        guard let calendar = defaultCalendar else {
+            return
+        }
+        let event = EKEvent(eventStore: self.eventStore)
+        event.title = "Microsoft iOS Dev Event"
+        event.startDate = Date()
+        event.endDate = Date().addingTimeInterval(1*60*60)
+        event.notes = "This is a test Microsoft iOS Dev Event"
+        event.location = " Microsoft Bangalore Office"
+        event.calendar = calendar
+        do {
+            try self.eventStore.save(event, span: EKSpan(rawValue: 0)!)
+            isEventSaved = true
+        } catch {
+            print("error in creating Event")
+        }
+    }
+    
     func fetchWeather(info time : String,location : MSLocation, completion: @escaping (WeatherResult) -> Void) {
-//        DispatchQueue.main.async {
             self.weatherManager.fetchWeather(location: location, time: time) { (weatherResult) in
                 completion(weatherResult)
             }
-//        }
     }
 }

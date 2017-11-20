@@ -12,6 +12,8 @@ import XCTest
 class MSCalendarAPITests: XCTestCase {
     let registrar: MSMockConnectionRegistrar = MSMockConnectionRegistrar()
     let locationManager = MSMockLocationManager()
+    let todaysDateInMilliSeconds = Int(Date().timeIntervalSince1970)
+
     override func setUp() {
         super.setUp()
     }
@@ -20,14 +22,15 @@ class MSCalendarAPITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+    // Test case to test the API Success Case
     func testWeatherAPISuccess() {
         registrar.responseJSON = .fetchWeatherSuccess
         let handler = MSServiceHandler(connectHandler: registrar as NetworkRegistrar )
         let manager = MSWeatherManager(webserviceHandler: handler)
 
         let viewModel = MSCalendarViewModel(manager, locationManager: locationManager)
-        viewModel.fetchWeather(info: "12313", location: locationManager.userLocation!) { (weatherResult: WeatherResult) in
+        
+        viewModel.fetchWeather(info: String(todaysDateInMilliSeconds), location: locationManager.userLocation!) { (weatherResult: WeatherResult) in
             switch weatherResult {
             case let .success(weather):
                 let temperatureInDouble = Double(68.71)
@@ -46,7 +49,7 @@ class MSCalendarAPITests: XCTestCase {
         let handler = MSServiceHandler(connectHandler: registrar as NetworkRegistrar )
         let manager = MSWeatherManager(webserviceHandler: handler)
         let viewModel = MSCalendarViewModel(manager, locationManager: locationManager)
-        viewModel.fetchWeather(info: "12313", location: locationManager.userLocation!) { (weatherResult: WeatherResult) in
+        viewModel.fetchWeather(info: String(todaysDateInMilliSeconds), location: locationManager.userLocation!) { (weatherResult: WeatherResult) in
             switch weatherResult {
             case .success(_):
                 XCTAssertTrue(false, "Fail")

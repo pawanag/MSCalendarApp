@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Enum to Decide the weather Category
 enum WeatherCategory: String {
     case Clear
     case PartlyCloudy
@@ -17,44 +18,43 @@ enum WeatherCategory: String {
     case Cloudy
     case Thunderstorm
     
+    // Class func to access the Weather Category
+    // Input Param String
     static func getCategory(category: String) -> WeatherCategory {
         switch category {
-        case "clear-day", "clear-night", "clear":
+        case MSConstants.kClearDaySmallCase, MSConstants.kClearNightSmallCase, MSConstants.kClearSmallCase:
             return .Clear
-        case "partly-cloudy", "partly-cloudy-day", "partly-cloudy-night":
+        case MSConstants.kPartlyCloudySmallCase, MSConstants.kPartlyCloudyDaySmallCase, MSConstants.kPartlyCloudyNightSmallCase:
             return .PartlyCloudy
-        case "cloudy":
+        case MSConstants.kCloudySmallCase:
             return .Cloudy
-        case "rain", "snow", "sleet":
+        case MSConstants.kRainSmallCase, MSConstants.kSnowSmallCase, MSConstants.kSleetSmallCase:
             return .Rain
-        case "wind":
+        case MSConstants.kWindSmallCase:
             return .Wind
-        case "fog":
+        case  MSConstants.kFog:
             return .Fog
         default:
             return .Thunderstorm
         }
     }
-    
-    
-    
+
     func getWeatherStringValue() -> String {
         switch self {
         case .Clear:
-            return "Clear"
+            return MSConstants.kClear
         case .Cloudy, .PartlyCloudy:
-            return "Cloudy"
+            return MSConstants.kCloudy
         case .Rain, .Thunderstorm:
-            return "Rain"
-            
+            return MSConstants.kRain
         default:
-            return "Windy"
+            return MSConstants.kWind
         }
     }
 }
 
 enum WeatherResult {
-    case success(MSWeather) //associated value
+    case success(MSWeather)
     case failure(Error)
 }
 
@@ -64,8 +64,6 @@ enum WeatherError: Error {
 
 class MSWeatherManager: NSObject {
     
-    private let baseURLString = "https://api.darksky.net/forecast/"
-    private let apiKey = "a0be4defa7d8828ebc82c5a6cb0390aa"
     private var serviceHandler: MSServiceHandler
     
     private let session: URLSession = {
@@ -88,51 +86,53 @@ class MSWeatherManager: NSObject {
             completion(self.weather(fromJSON: jsonData))
         }
     }
+    // Get Summary Of weather In string , based on Weather category provided
     
     func getWeatherSummaryFrom(category : WeatherCategory) -> String {
         switch category {
         case .Clear :
-            return "Clear"
+            return MSConstants.kClear
         case .PartlyCloudy:
-            return "PartlyCloudy"
+            return MSConstants.kPartlyCloudy
         case .Cloudy:
-            return "Cloudy"
+            return MSConstants.kCloudy
         case .Rain:
-            return "Rain"
+            return MSConstants.kRain
         case .Wind:
-            return "Wind"
+            return MSConstants.kWind
         case .Fog:
-            return "Fog"
+            return MSConstants.kFog
         default:
-            return "Thunderstorm"
+            return MSConstants.kThunderstorm
         }
     }
     
+    // Create URL for fetching the Weather Info particular to a location and based on timestamp
+    // 
     func weatherUrl(fromLatitude latitude: String, longitude: String, time: String) -> URL {
-        
         let baseParam = [
-            "key" : apiKey,
-            "latitude" : latitude,
-            "longitude" : longitude,
-            "time": time
+            MSConstants.kKeyConstant : MSConstants.apiKey,
+            MSConstants.klatitude : latitude,
+            MSConstants.klongitude : longitude,
+            MSConstants.ktime: time
         ]
-        
-        var urlString = baseURLString
-        
-        urlString += baseParam["key"]! + "/"
-        urlString += baseParam["latitude"]! + ","
-        urlString += baseParam["longitude"]! + ","
-        urlString += baseParam["time"]!
+        var urlString = MSConstants.baseURLString
+        urlString += baseParam[MSConstants.kKeyConstant]! + "/"
+        urlString += baseParam[MSConstants.klatitude]! + ","
+        urlString += baseParam[MSConstants.klongitude]! + ","
+        urlString += baseParam[MSConstants.ktime]!
         
         let components = URLComponents(string: urlString)
         return (components?.url!)!
     }
     
+    /** Create MSWeather Type Object and returns it
+     @Param Json : response fetched by the API 
+     */
     private func weather(fromJSON json: [String: Any]) -> MSWeather? {
-        
-        guard let weatherCategory = json["icon"] as? String,
-            let summaryValue = json["summary"] as? String,
-            let temperature = json["temperature"]
+        guard let weatherCategory = json[MSConstants.kicon] as? String,
+            let summaryValue = json[MSConstants.kSummaryKey] as? String,
+            let temperature = json[MSConstants.kTemperatureKey]
             else {
                 return nil
         }
@@ -144,11 +144,10 @@ class MSWeatherManager: NSObject {
     
     func weather(fromJSON data: Any) -> WeatherResult {
         guard let jsonDictionary = data as? [AnyHashable: Any],
-            let weatherDetailJson = jsonDictionary["currently"] as? [String: Any]
+            let weatherDetailJson = jsonDictionary[MSConstants.kCurrentTemperatureKey] as? [String: Any]
             else {
                 return .failure(WeatherError.inValidJsonData)
         }
-        
         var finalWeather: MSWeather? = nil
         if let weather = weather(fromJSON: weatherDetailJson) {
             finalWeather = weather

@@ -10,12 +10,14 @@ import UIKit
 
 class MSDateHelper: NSObject {
 
+    // Helper Class to convert dates into specified Format
+    
     var dateFormatter : DateFormatter
     let dateManager = MSDateManager.dateManager
     
     override init() {
        dateFormatter =  DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.locale = Locale(identifier: MSConstants.kLocaleTimeIdentifier)
     }
     
     func monthStringFor(index : Int)-> String? {
@@ -65,11 +67,11 @@ class MSDateHelper: NSObject {
             
             let todayIndex = dateManager.indexForToday()
             if index == todayIndex - 1 {
-                return "Yesterday"
+                return "Yesterday, " + dateFormatter.string(from: date)
             } else if index == todayIndex {
-                return "Today"
+                return "Today, " + dateFormatter.string(from: date)
             } else if index == todayIndex + 1 {
-                return "Tomorrow"
+                return "Tomorrow, " + dateFormatter.string(from: date)
             } else {
                 return dateFormatter.string(from: date)
             }

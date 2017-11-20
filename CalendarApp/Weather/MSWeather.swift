@@ -13,13 +13,16 @@ class MSWeather: NSObject {
     let summary: String
     let temperature: String
     
+    /** Init Method which creates the Weather Object
+     @Param weatherCategory : Provided by the Manager Class
+    */
     init(category: WeatherCategory, summary: String, temperature: String) {
         self.category = category
         if let temperatureInDouble = Double(temperature) {
             let tempInCelsius = (temperatureInDouble - 32)*(5/9)
             self.temperature = String(format: "%.0f", ceil(tempInCelsius*100)/100) + " °C"
         } else {
-            self.temperature = "temperature"
+            self.temperature = " "
         }
         
         self.summary = summary

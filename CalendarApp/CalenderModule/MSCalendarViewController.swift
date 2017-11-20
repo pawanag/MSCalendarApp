@@ -14,40 +14,75 @@ class MSCalendarViewController: UIViewController {
     
     @IBOutlet weak var calendarCollectionView: UICollectionView!
     @IBOutlet weak var calendarTableView: UITableView!
-    let calendarViewModel = MSCalendarViewModel()
-    var eventStore: EKEventStore = EKEventStore()
+    private let calendarViewModel = MSCalendarViewModel()
+    private let eventStore: EKEventStore = EKEventStore()
     private var collectionViewSelected: IndexPath?
     private var didSelectCollection = false
+    // To find whether it's first Launch of the App
     private var isFirstTimeLaunch : Bool = false
+    // Maintain the Last Offset Of Scroll
+    private var lastContentOffset: CGFloat = 0
+    private var lastContentOffsetOfCollectionView: CGFloat = 0
+    private var tableViewStartedScroll : Bool = false
+    private var collectionViewStartedScroll : Bool = false
+    
+    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Maintaining a bool to identify the first launch
         isFirstTimeLaunch = true
         registerCells()
         checkEventStoreAccessForCalendar()
+        calendarViewModel.addObserver(self, forKeyPath: MSConstants.kIsEventSaved, options: [.old, .new, .initial], context: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if isFirstTimeLaunch {
+            // Scroll to today's date
             showTodaysday(index: MSDateManager.dateManager.indexForToday(), animated: false)
         }
         self.hidesBottomBarWhenPushed = true
         isFirstTimeLaunch = false
     }
     
+    // KVO observer for Events Saved Property 
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == MSConstants.kIsEventSaved {
+            if calendarViewModel.isEventSaved == true {
+                // getting access of main queue before doing any UI Operations
+                DispatchQueue.main.async {
+                    self.calendarTableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    deinit {
+        calendarViewModel.removeObserver(self, forKeyPath: MSConstants.kIsEventSaved)
+    }
+    
+    private func registerCells() {
+        calendarCollectionView.register(UINib(nibName: MSConstants.kCollectionViewCell, bundle: Bundle.main), forCellWithReuseIdentifier: MSConstants.kCollectionViewCell)
+        calendarTableView.register(UINib(nibName: MSConstants.kTableViewCell, bundle: Bundle.main), forCellReuseIdentifier: MSConstants.kTableViewCell)
+    }
+    // checking whether the access of calendar has been provided or not
     private func checkEventStoreAccessForCalendar() {
         let status = EKEventStore.authorizationStatus(for: EKEntityType.event)
         
         switch status {
         case .authorized: calendarViewModel.accessGrantedForCalendar(eventStore : eventStore)
         case .notDetermined: requestForCalendarAccess()
-        case .denied, .restricted:
-            let alertController = UIAlertController(title: "Warning", message: "Permission not granted for Calendar", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: {action in})
-            alertController.addAction(defaultAction)
-            self.present(alertController, animated: true, completion: nil)
+        case .denied, .restricted: showAlert(title : MSConstants.kWarningTitle, message: MSConstants.kNoPermissionMessage)
         }
+    }
+    
+    private func showAlert(title : String, message : String) {
+        let alertController = UIAlertController(title: title, message:message , preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: MSConstants.kOkMessage, style: .cancel, handler: {action in})
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // Ask the user for access to their Calendar
@@ -56,11 +91,12 @@ class MSCalendarViewController: UIViewController {
             if granted {
                 DispatchQueue.main.async {
                     self?.calendarViewModel.accessGrantedForCalendar(eventStore : (self?.eventStore)!)
+                    self?.calendarViewModel.createEventForToday()
                 }
             }
         }
     }
-    
+    // Scroll User to today's Date
     private func showTodaysday(index : Int, animated : Bool) {
         let indexPath = IndexPath(row: index, section: 0)
         
@@ -72,11 +108,6 @@ class MSCalendarViewController: UIViewController {
         }
     }
     
-    private func registerCells() {
-        calendarCollectionView.register(UINib(nibName: "MSDateCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: "MSDateCollectionViewCell")
-        calendarTableView.register(UINib(nibName: "MSEventTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "MSEventTableViewCell")
-    }
-    
 }
 
 extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate {
@@ -86,11 +117,10 @@ extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,U
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MSEventTableViewCell") as? MSEventTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MSConstants.kTableViewCell) as? MSEventTableViewCell else {
             return UITableViewCell()
         }
         cell.model = calendarViewModel.fetchModel(indexPath: indexPath)
-        
         return cell
     }
     
@@ -103,11 +133,65 @@ extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,U
             cell.model = calendarViewModel.fetchModel(indexPath: indexPath)
         }
     }
+    //
+    func scrollTableView(_ scrollView: UIScrollView) {
+        collectionViewStartedScroll = false
+        tableViewStartedScroll = true
+        if tableViewStartedScroll && scrollView == calendarTableView {
+            if (self.lastContentOffset < calendarTableView.contentOffset.y) {
+                // Animating The Constraint update so that The transition is not abrupt
+
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.collectionViewHeightConstraint.constant = CGFloat(MSConstants.kCollectionViewHeightNotExpanded)
+                    self.calendarCollectionView.updateConstraints()
+                })
+            }
+            self.lastContentOffset = calendarTableView.contentOffset.y
+        }
+    }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView == calendarTableView, didSelectCollection == false , isFirstTimeLaunch == false else {
+    func scrollCollectionView(_ scrollView: UIScrollView) {
+        if collectionViewStartedScroll && scrollView == calendarCollectionView {
+            if lastContentOffsetOfCollectionView > calendarCollectionView.contentOffset.y {
+                // Animating The Constraint update so that The transition is not abrupt
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.collectionViewHeightConstraint.constant = CGFloat(MSConstants.kCollectionViewHeightExpanded)
+                    self.calendarCollectionView.updateConstraints()
+                })
+            }
+            lastContentOffsetOfCollectionView = calendarCollectionView.contentOffset.y
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        guard isFirstTimeLaunch == false else {
             return
         }
+        guard scrollView == calendarTableView else {
+            if !tableViewStartedScroll {
+                collectionViewStartedScroll = true
+                scrollCollectionView(scrollView)
+            }
+            return
+        }
+        scrollTableView(scrollView)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard isFirstTimeLaunch == false else {
+            return
+        }
+        guard scrollView == calendarTableView else {
+            if !tableViewStartedScroll {
+                collectionViewStartedScroll = true
+                scrollCollectionView(scrollView)
+            }
+            return
+        }
+        // Scroll TableView and update the constraint of Collection view accordingly
+        scrollTableView(scrollView)
+        
+        // To make the circle flow as we are Scrolling the TableView
         if let indexPaths = calendarTableView.indexPathsForVisibleRows, indexPaths.count > 0 {
             if let indexPathTableView = collectionViewSelected {
                 if let cell = calendarCollectionView.cellForItem(at: indexPathTableView) as? MSDateCollectionViewCell {
@@ -125,27 +209,35 @@ extension MSCalendarViewController : UITableViewDataSource,UITableViewDelegate,U
             if let cell = calendarCollectionView.cellForItem(at: indexItem) as? MSDateCollectionViewCell {
                 cell.model.cellSelection = .selected
                 cell.cellSelection = .selected
-                self.navigationController?.navigationBar.topItem?.title = cell.model.titleMonth
+                self.title = cell.model.titleMonth
             }
         }
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard scrollView == calendarTableView else {
-            return
-        }
+    // Resetting the boolean Variables to there default values
+    private func resetBoolToDefaultValues() {
+        tableViewStartedScroll = false
+        collectionViewStartedScroll = false
         didSelectCollection = false
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        resetBoolToDefaultValues()
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        resetBoolToDefaultValues()
     }
     
     private func openEventController(indexPath: IndexPath) {
         guard self.calendarViewModel.defaultCalendar != nil else {
-           checkEventStoreAccessForCalendar()
+            checkEventStoreAccessForCalendar()
             return
         }
         
         let model = calendarViewModel.fetchModel(indexPath: indexPath)
         if let event = model.eventModel {
-            if let eventViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EKEventViewController") as? EKEventViewController {
+            if let eventViewController = UIStoryboard(name: MSConstants.kStoryBoardName, bundle: nil).instantiateViewController(withIdentifier: MSConstants.kEventViewController) as? EKEventViewController {
                 eventViewController.event = event
                 self.navigationController?.pushViewController(eventViewController, animated: true)
             }
@@ -170,7 +262,7 @@ extension MSCalendarViewController : UICollectionViewDelegate,UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = calendarCollectionView.dequeueReusableCell(withReuseIdentifier: "MSDateCollectionViewCell", for: indexPath) as? MSDateCollectionViewCell else {
+        guard let cell = calendarCollectionView.dequeueReusableCell(withReuseIdentifier: MSConstants.kCollectionViewCell, for: indexPath) as? MSDateCollectionViewCell else {
             return UICollectionViewCell()
         }
         return cell
@@ -208,7 +300,9 @@ extension MSCalendarViewController : UICollectionViewDelegate,UICollectionViewDa
     }
 }
 
-extension MSCalendarViewController : EKEventEditViewDelegate {
+// delegate methods of EventController
+
+extension MSCalendarViewController : EKEventEditViewDelegate, EKEventViewDelegate {
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         // Dismiss the modal view controller
@@ -218,6 +312,10 @@ extension MSCalendarViewController : EKEventEditViewDelegate {
     
     func eventEditViewControllerDefaultCalendar(forNewEvents controller: EKEventEditViewController) -> EKCalendar {
         return self.calendarViewModel.defaultCalendar!
+    }
+    
+    public func eventViewController(_ controller: EKEventViewController, didCompleteWith action: EKEventViewAction) {
+        self.calendarTableView.reloadData()
     }
 }
 

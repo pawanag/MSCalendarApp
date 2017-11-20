@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1940FA5E1FC335D100A20EA9 /* MSConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1940FA5D1FC335D100A20EA9 /* MSConstants.swift */; };
 		194B0CA51FBA2E1700CC44F6 /* MSWeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194B0CA11FBA2E1600CC44F6 /* MSWeatherManager.swift */; };
 		194B0CA61FBA2E1700CC44F6 /* MSLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194B0CA21FBA2E1600CC44F6 /* MSLocation.swift */; };
 		194B0CA71FBA2E1700CC44F6 /* MSWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194B0CA31FBA2E1600CC44F6 /* MSWeather.swift */; };
@@ -35,6 +36,7 @@
 		19F4F8971FC1C8910092682A /* MSCalendarAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F88B1FC1C8910092682A /* MSCalendarAPITests.swift */; };
 		19F4F89A1FC1CAFD0092682A /* MSMockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F8981FC1CAFD0092682A /* MSMockLocationManager.swift */; };
 		19F4F89D1FC1D00A0092682A /* MSMockConnectionRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F8851FC1C8900092682A /* MSMockConnectionRegistrar.swift */; };
+		19F4F8A01FC2BA930092682A /* MSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F4F89F1FC2BA930092682A /* MSDateExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1940FA5D1FC335D100A20EA9 /* MSConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSConstants.swift; sourceTree = "<group>"; };
 		194B0CA11FBA2E1600CC44F6 /* MSWeatherManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSWeatherManager.swift; sourceTree = "<group>"; };
 		194B0CA21FBA2E1600CC44F6 /* MSLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSLocation.swift; sourceTree = "<group>"; };
 		194B0CA31FBA2E1600CC44F6 /* MSWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSWeather.swift; sourceTree = "<group>"; };
@@ -87,6 +90,7 @@
 		19F4F8881FC1C8900092682A /* fetchWeatherSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchWeatherSuccess.json; sourceTree = "<group>"; };
 		19F4F88B1FC1C8910092682A /* MSCalendarAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCalendarAPITests.swift; sourceTree = "<group>"; };
 		19F4F8981FC1CAFD0092682A /* MSMockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSMockLocationManager.swift; sourceTree = "<group>"; };
+		19F4F89F1FC2BA930092682A /* MSDateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDateExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +201,8 @@
 			children = (
 				19F4F8541FC055530092682A /* MSDateHelper.swift */,
 				19F4F8551FC055530092682A /* MSDateManager.swift */,
+				19F4F89F1FC2BA930092682A /* MSDateExtension.swift */,
+				1940FA5D1FC335D100A20EA9 /* MSConstants.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -397,9 +403,11 @@
 				194B0CA51FBA2E1700CC44F6 /* MSWeatherManager.swift in Sources */,
 				19F4F8811FC179870092682A /* MSServiceHandler.swift in Sources */,
 				19F4F8631FC056580092682A /* MSEventTableViewCell.swift in Sources */,
+				1940FA5E1FC335D100A20EA9 /* MSConstants.swift in Sources */,
 				19F4F8591FC055530092682A /* MSDateManager.swift in Sources */,
 				194B0CA61FBA2E1700CC44F6 /* MSLocation.swift in Sources */,
 				19F4F8611FC056580092682A /* MSDateCollectionViewCell.swift in Sources */,
+				19F4F8A01FC2BA930092682A /* MSDateExtension.swift in Sources */,
 				19F4F85B1FC0559C0092682A /* MSDateModel.swift in Sources */,
 				19F4F8581FC055530092682A /* MSDateHelper.swift in Sources */,
 			);

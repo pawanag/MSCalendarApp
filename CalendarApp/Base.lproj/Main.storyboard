@@ -84,7 +84,7 @@
                                     <constraint firstAttribute="bottom" secondItem="EkO-Cy-Hyl" secondAttribute="bottom" constant="8" id="QMH-gG-stA"/>
                                     <constraint firstItem="EkO-Cy-Hyl" firstAttribute="width" secondItem="a0u-BR-yke" secondAttribute="width" id="SN0-CS-u0c"/>
                                     <constraint firstItem="v7D-yr-Oug" firstAttribute="top" secondItem="da8-3F-brk" secondAttribute="top" id="YQ7-ed-pyk"/>
-                                    <constraint firstAttribute="trailing" secondItem="c0f-Zb-3zx" secondAttribute="trailing" constant="0.5" id="bDx-jL-IRQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="c0f-Zb-3zx" secondAttribute="trailing" id="bDx-jL-IRQ"/>
                                     <constraint firstAttribute="trailing" secondItem="hjK-B7-VaQ" secondAttribute="trailing" id="dRM-k2-mcY"/>
                                     <constraint firstItem="a0u-BR-yke" firstAttribute="leading" secondItem="da8-3F-brk" secondAttribute="leading" id="doo-Ao-pzP"/>
                                     <constraint firstItem="c0f-Zb-3zx" firstAttribute="leading" secondItem="v7D-yr-Oug" secondAttribute="trailing" id="eNT-aH-sYu"/>
@@ -172,6 +172,7 @@
                     <connections>
                         <outlet property="calendarCollectionView" destination="bg8-80-kdT" id="8bt-LN-IuC"/>
                         <outlet property="calendarTableView" destination="kT9-NT-uj2" id="mr7-je-luh"/>
+                        <outlet property="collectionViewHeightConstraint" destination="Fl5-LE-HsT" id="7Ix-bH-jhH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

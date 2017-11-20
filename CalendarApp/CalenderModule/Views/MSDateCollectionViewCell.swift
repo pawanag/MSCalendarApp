@@ -29,6 +29,7 @@ class MSDateCollectionViewCell: UICollectionViewCell {
         }
     }
    
+    // configuring cell based on it's Selected state
     var cellSelection: CellSelection = .none {
         didSet {
             switch cellSelection {
@@ -71,6 +72,7 @@ class MSDateCollectionViewCell: UICollectionViewCell {
         cellSelection = model.cellSelection
     }
     
+    // Resetting Cell to it's default values, so that they are available for reuse
     private func resetToDefaultValues() {
         dateLabel.textColor =  UIColor(red: 34/255.0, green: 34/255.0, blue: 34/255.0, alpha: 1.0)
         circleView.isHidden = true
